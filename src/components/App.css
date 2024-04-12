@@ -1,0 +1,646 @@
+@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rowdies:wght@300;400;700&display=swap');
+
+/* Animations. */
+@keyframes fadeInAnim  {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInPopUpAnim  {
+  0% {
+    opacity: 0;
+    scale: 0;
+  }
+  85% {
+    scale: 1.1;
+  }
+  100% {
+    opacity: 1;
+    scale: 1;
+  }
+}
+
+@keyframes loadingAnim {
+  0% {
+    opacity: 0.1;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.1;
+  }
+}
+
+@keyframes flashRedAnim {
+  0% {
+    color: #e0e0e0;
+  }
+  50% {
+    color: #e01c1c;
+  }
+}
+
+/* Global display. */
+.App
+{
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-rows: min-content min-content;
+
+  align-content: center;
+  justify-content: center;
+  height: 100vh;
+
+  background-color: white;
+  background-image: url('../../public/appBackground.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  overflow: hidden;
+
+  font-family: 'Chakra Petch', sans-serif;
+}
+
+button
+{
+  border-radius: 5px;
+  border-width: 1px;
+
+  font-family: 'Chakra Petch', sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+
+  background: rgba(225, 225, 225, 1);
+
+  transition: background-color, opacity;
+  transition-duration: 0.15s;
+}
+
+button:hover
+{
+  background-color: rgba(255, 255, 255, 1);
+}
+
+
+
+/* Displayed while loading the next word. */
+.loading-word-wrapper
+{
+  background-color: rgba(0, 0, 0, 0.75);
+  padding: 25px;
+
+  border-radius: 25px;
+  border-width: 2px;
+  border-color: #000;
+  border-style: solid;
+}
+
+.loading-word-wrapper .loading-word
+{
+  font-family: 'Chakra Petch', sans-serif;
+  font-size: calc(2vh + 2vw);
+  font-weight: bold;
+  font-style: italic;
+  color: #e6e6e6;
+
+  animation: loadingAnim ease-in-out 1s;
+  animation-iteration-count: infinite;
+  animation-fill-mode: forwards;
+}
+
+/* Title Card. */
+.title-card
+{
+  grid-row: 1;
+  font-family: 'Chakra Petch', sans-serif;
+  font-size: calc(8vh + 8vw);
+  font-weight: bold;
+  color: #191919;
+}
+
+/* Menu buttons. */
+.menu-widget
+{
+  grid-row: 2;
+  padding-top: 25px;
+
+  display: grid;
+  grid-template-columns: 16vw 16vw;
+  grid-template-rows: 8vw;
+  grid-column-gap: 25px;
+
+  justify-content: center;
+}
+
+.menu-widget button
+{
+  border-radius: 100px;
+
+  grid-row: 1;
+  font-family: 'Chakra Petch', sans-serif;
+  font-size: 2vw;
+  font-weight: bold;
+}
+
+/* Navigation bar heading consists of a row that represents the nav-bar and a row that represents the rest of the
+page. */
+header
+{
+  display: grid;
+  grid-template-rows: auto auto;
+  grid-template-columns: 100%;
+
+  position: fixed;
+  width: 100%;
+}
+
+header button
+{
+  background: rgb(200, 200, 200, 1);
+  padding: 4px;
+}
+
+header button:hover
+{
+  background-color: rgba(255, 255, 255, 1);
+}
+
+/* The navigation bar in the header. */
+header .nav-bar
+{
+  grid-row: 1;
+
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+
+  background-color: #191919;
+  color: #e0e0e0;
+
+  font-size: 20px;
+  padding: 15px 0;
+
+  animation: fadeInAnim ease 1s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+
+/* The container for the "quit" option and information like current lives. */
+header .nav-bar .info-bar
+{
+  display: flex;
+  margin-left: 15px;
+
+  font-size: 24px;
+  font-weight: bold;
+}
+
+/* Button to quit the current game. */
+header .nav-bar .quit-button
+{
+  margin-right: 15px;
+}
+
+/* The "lives" counter when the player has low lives. */
+header .nav-bar .info-bar .low-lives
+{
+  animation: flashRedAnim ease 1.0s;
+  animation-iteration-count: infinite;
+  animation-fill-mode: forwards;
+}
+
+/* The "lives" counter when the player has one life. */
+header .nav-bar .info-bar .one-life
+{
+  animation: flashRedAnim ease 0.25s;
+  animation-iteration-count: infinite;
+  animation-fill-mode: forwards;
+}
+
+header .nav-bar .leaderboard-button
+{
+  justify-self: center;
+  position: fixed;
+  left: 50%;
+  transform: translate(-50%);
+}
+
+/* Sign out button. */
+header .sign-out
+{
+  padding-right: 15px;
+
+  font-size: min(2.25vw, 20px);
+}
+
+/* In-game central widget. Consists of a row for listing transforms, for displaying guesses, and for additional
+ * options. */
+.game-page
+{
+  display: grid;
+  grid-template-rows: min-content min-content min-content;
+  grid-row-gap: 30px;
+
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -60%);
+}
+
+/* Dynamic list of images for each edit distance transform for the currently displayed guess. */
+.game-page .transforms
+{
+  grid-row: 1;
+  height: calc(2.5vh + 2.5vw);
+  display: flex;
+
+  justify-content: center;
+}
+
+/* Container with the displayed guess and buttons to change the displayed guess. */
+.game-page .displayed-word
+{
+  grid-row: 2;
+
+  display: grid;
+  grid-template-columns: calc(5vh + 5vw) calc(31vh + 31vw) calc(5vh + 5vw);
+  height: calc(5vh + 5vw);
+
+  font-size: calc(3vh + 3vw);
+  text-align: center;
+
+  align-items: center;
+}
+
+/* The word being displayed (unless we're guessing a word). */
+.game-page .displayed-word .previous-guess
+{
+  grid-column: 2;
+
+  height: calc(5vh + 5vw);
+
+  border-radius: 5px;
+  border-width: 2px;
+  border-color: rgba(255, 255, 255, 0);
+  border-style: solid;
+
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+/* "next guess" and "previous guess" buttons. */
+.game-page .displayed-word button
+{
+  border-radius: 0;
+  border-width: 0;
+
+  background: rgba(225, 225, 225, 0.0);
+
+  transition: background-color, opacity;
+  transition-duration: 0.15s;
+}
+
+.game-page .displayed-word .previous-guess-button
+{
+  grid-column: 1;
+
+  opacity: 100%;
+  transition: opacity;
+  transition-duration: 0.075s;
+}
+
+.game-page .displayed-word .previous-guess-button:hover
+{
+  opacity: 80%;
+}
+
+.game-page .displayed-word .next-guess-button
+{
+  grid-column: 3;
+
+  opacity: 100%;
+  transition: opacity;
+  transition-duration: 0.1s;
+}
+
+.game-page .displayed-word .next-guess-button:hover
+{
+  opacity: 80%;
+}
+
+/* Field for making the next guess. */
+.game-page .guess-field-prop
+{
+  width: calc(31vh + 31vw);
+  height: calc(5vh + 5vw);
+  font-size: calc(3vh + 3vw);
+  text-align: center;
+
+  border-radius: 5px;
+  border-width: 2px;
+  background-color: rgba(255, 255, 255, 0.9)
+}
+
+/* Warning displayed if the player tried to make an invalid guess. */
+.game-page .invalid-guess-warning
+{
+  grid-row: 3;
+
+  text-align: center;
+  height: calc(5vh + 5vw);
+
+  font-size: calc(1vh + 1vw);
+  color: rgb(175, 0, 0);
+
+  animation: fadeInPopUpAnim ease 0.1s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+
+/* Win/Lose pop-up. */
+.post-game-pop-up
+{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.post-game-pop-up .post-game-pop-up-box
+{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 25px;
+
+  position: absolute;
+  padding: 48px;
+  width: auto;
+
+  border-radius: 15px;
+  border-width: 3px;
+  border-color: #000;
+  border-style: solid;
+
+  background-color: rgba(0, 0, 0, 0.75);
+  color: #e0e0e0;
+  font-size: calc(2vh + 2vw);
+  font-weight: bold;
+
+  animation: fadeInPopUpAnim ease 0.2s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+
+/* Text displaying the game outcome and target word. */
+.post-game-pop-up .post-game-pop-up-box .win-text
+{
+  color: rgb(0, 175, 0);
+}
+
+.post-game-pop-up .post-game-pop-up-box .loss-text
+{
+  color: rgb(175, 0, 0);
+}
+
+.post-game-pop-up .post-game-pop-up-box .target-word
+{
+  font-weight: bold;
+  font-style: italic;
+  text-decoration: underline;
+  color: rgb(0, 175, 0);
+}
+
+/* The word's definition. */
+.post-game-pop-up .definition
+{
+  font-weight: normal;
+  font-style: normal;
+  font-size: calc(0.75vh + 0.75vw);
+
+  max-width: 40vw;
+}
+
+.post-game-pop-up .definition .loading-def
+{
+  font-weight: bold;
+  font-style: italic;
+
+  animation: loadingAnim ease-in-out 1s;
+  animation-iteration-count: infinite;
+  animation-fill-mode: forwards;
+}
+
+.post-game-pop-up .post-game-pop-up-box .definition .word-def
+{
+  font-style: italic;
+}
+
+/* Post-game option buttons. */
+.post-game-pop-up .post-game-pop-up-box .post-game-options
+{
+  justify-content: center;
+  display: flex;
+  gap: 25px;
+}
+
+.post-game-pop-up .post-game-pop-up-box .post-game-options button
+{
+  font-size: calc(1vh + 1vw);
+
+  border-radius: 15px;
+  border-width: 2px;
+  padding: 12px;
+  width: calc(10vh + 10vw);
+
+  grid-row: 1;
+  font-family: 'Chakra Petch', sans-serif;
+  font-weight: bold;
+}
+
+/* "How to play?" (htp) pop-up. */
+.htp-popup
+{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.25);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  animation: fadeInAnim ease 0.15s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+
+.htp-popup-box
+{
+  position: absolute;
+  padding: 24px;
+  width: auto;
+
+  border-radius: 15px;
+  border-width: 3px;
+  border-color: #000;
+  border-style: solid;
+
+  background-color: rgba(0, 0, 0, 0.75);
+  color: #e0e0e0;
+  font-size: calc(1vh + 1vw);
+
+  animation: fadeInAnim ease 0.15s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+
+.htp-popup-box .htp-close-popup-button
+{
+  margin: 5px;
+  font-size: calc(0.75vh + 0.75vw);
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.htp-popup-box .htp-text-box
+{
+  display: grid;
+  grid-auto-rows: auto;
+  grid-row-gap: 5px;
+}
+
+.htp-popup-box .htp-text-box p
+{
+  margin: 5px;
+  text-align: left;
+
+  font-size: calc(1vh + 1vw);
+}
+
+.htp-hint-description
+{
+  display: flex;
+  margin-left: calc(1vh + 1vw);
+}
+
+.htp-hint-description img
+{
+  width: calc(1.5vh + 1.5vw);
+  height: calc(1.5vh + 1.5vw);
+}
+
+/* Leaderboard (lb) pop-up. */
+.lb-popup
+{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.25);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  animation: fadeInAnim ease 0.15s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+
+.lb-popup .lb-popup-box
+{
+  position: absolute;
+  padding: 25px 50px 50px;
+  width: auto;
+
+  display: grid;
+  grid-template-rows: min-content auto;
+
+  border-radius: 15px;
+  border-width: 3px;
+  border-color: #000;
+  border-style: solid;
+
+  background-color: rgba(0, 0, 0, 0.75);
+  color: #e0e0e0;
+  font-size: calc(1vh + 1vw);
+
+  animation: fadeInAnim ease 0.15s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+
+.lb-title
+{
+  font-size: calc(2vh + 2vw);
+  font-weight: bold;
+}
+
+.lb-popup .lb-popup-box .lb-close-popup-button
+{
+  position: absolute;
+  right: 10px;
+  top: 10px;
+
+  font-size: calc(0.75vh + 0.75vw);
+}
+
+.lb-popup .lb-popup-box .lb-text-box
+{
+  display: grid;
+  grid-template-rows: auto;
+  grid-row-gap: 5px;
+
+  font-size: calc(1.5vh + 1.5vw);
+}
+
+.lb-popup .lb-popup-box .lb-text-box .leaderboard-entry
+{
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-column-gap: 35px;
+}
+
+.username
+{
+  grid-column: 1;
+
+  text-align: left;
+  font-style: italic;
+}
+
+.score
+{
+  grid-column: 2;
+
+  text-align: right;
+  font-weight: bold;
+}
+
+.lb-loading
+{
+  font-style: italic;
+
+  animation: loadingAnim ease-in-out 1s;
+  animation-iteration-count: infinite;
+  animation-fill-mode: forwards;
+}
