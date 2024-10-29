@@ -13,6 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "firebase": "^10.11.0",
+    "http-proxy-middleware": "^3.0.3",
     "react-dom": "^18.2.0",
     "react-scripts": "^5.0.1",
     "scripts": "^0.1.0",
